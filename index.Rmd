@@ -6,6 +6,7 @@ output:
   rmdformats::downcute:
     number_sections: false
     toc_depth: 3
+    use_bookdown: true
 ---
 
 ```{r setup, include=FALSE}
@@ -22,10 +23,7 @@ library(gifski)
 ![](./framingham_heart_banner.jpg)
 
 ## Abstract {#abstract}
-A data analysis report was conducted and written based on a Framingham study, where data 
-was collected in 1968. It was determined that in the living subjects in the community of 
-Framingham, Massachusetts, females have a higher systolic blood pressure in comparison 
-to males as of the year 1968.
+
 
 
 ## Introduction {#introduction}
@@ -38,6 +36,10 @@ frmgham_data$ANGINA <- sapply(frmgham_data$ANGINA,
                            function(x) switch(as.character(x),
                                               "0" = "Free of Disease",
                                               "1" = "Prevalent Disease"))
+frmgham_data$DEATH <- sapply(frmgham_data$DEATH, 
+                           function(x) switch(as.character(x),
+                                              "0" = "Alive",
+                                              "1" = "Dead"))
 ```
 
 Variables recorded in the Framingham Heart Study Data
@@ -64,7 +66,25 @@ Variables recorded in the Framingham Heart Study Data
 
 
 ## Results {#results}
-``` {r, SYSBP-AGE-SEX_POINT, fig.cap = "A vi ", results='hide', message=FALSE, warning=FALSE, echo = TRUE}
+
+```{r}
+filtered_data <- frmgham_data[frmgham_data$DEATH == "Alive", ]
+
+ggplot(filtered_data, aes(x = PERIOD, fill = ANGINA)) +
+  geom_bar(position = "dodge")
+
+```
+
+
+
+
+
+
+
+
+
+
+``` {r fig1, fig.cap = "A vi ", fig.label="fig:example", results='hide', message=FALSE, warning=FALSE, echo = TRUE}
 theme_set(theme_bw())
 g <- ggplot(frmgham_data, aes(x = BMI, y = AGE, col = ANGINA)) +
       geom_point(alpha = 0.2) +
@@ -84,26 +104,15 @@ anim_save("animation.gif", animation)
 
 ![](./animation.gif)
 
-Figure \@ref{fig:SYSBP-AGE-SEX_POINT} shows a scatter plot between Systolic Blood 
-Pressure and Age faceted by Sex. In both sexes, systolic blood pressure increases with age
-as observed by the linear model. Throughout all ages, males have a systolic blood pressure 
-under 250mmHg, whereas some females are higher. Encircled in red are potential 
-hypertensive patients or measurement errors.
+Figure \@ref(fig:example)
+
 
 ## Discussion {#discussion}
-From figure \@ref{fig:SYSBP-AGE-SEX_POINT} it can be observed that the male group generally 
-has a lower systolic blood pressure in comparison to the female group as the linear model 
-shows that the systolic blood pressure is consistently higher in female group. 
-Additionally, it should also be noted that potential hypertensive patients or measurement 
-errors are only exclusively observed in the female group.
 
-It should be noted that this study only includes patients from the living subjects in the 
-community of Framingham, Massachusetts. Therefore the results drawn from this study can 
-only be accurate to the living subjects in the community of Framingham at the time of study, 
-1968.
-Furthermore, there is no mention of ethnicity or family history which may impact the results.
+
 
 ## Conclusion {#conclusion}
-In conclusion, in the living subjects in the community of Framingham, Massachusetts, females 
-have a higher systolic blood pressure in comparison to males as of the year 1968.
+
+
+
 
