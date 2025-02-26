@@ -32,10 +32,10 @@ frmgham_data$SEX <- sapply(frmgham_data$SEX,
                            function(x) switch(as.character(x),
                                               "1" = "Male",
                                               "2" = "Female"))
-frmgham_data$ANGINA <- sapply(frmgham_data$ANGINA, 
-                           function(x) switch(as.character(x),
-                                              "0" = "Free of Disease",
-                                              "1" = "Prevalent Disease"))
+#frmgham_data$ANGINA <- sapply(frmgham_data$ANGINA, 
+#                           function(x) switch(as.character(x),
+#                                              "0" = "Free of Disease",
+#                                              "1" = "Prevalent Disease"))
 frmgham_data$DEATH <- sapply(frmgham_data$DEATH, 
                            function(x) switch(as.character(x),
                                               "0" = "Alive",
@@ -70,8 +70,20 @@ Variables recorded in the Framingham Heart Study Data
 ```{r}
 filtered_data <- frmgham_data[frmgham_data$DEATH == "Alive", ]
 
-ggplot(filtered_data, aes(x = PERIOD, fill = ANGINA)) +
-  geom_bar(position = "dodge")
+ggplot(filtered_data, aes(x = AGE, y = SYSBP, color = factor(ANGINA))) +
+  # geom_point(alpha = 0.5)
+  #geom_point(data=as.data.frame(filtered_data), aes(x=AGE, y=SYSBP, fill=ANGINA), size=3, 
+# shape=21, alpha=0.6, position="jitter") + 
+  scale_fill_continuous(low="white", high="#FF0033")+
+  labs(title = "Age vs. Systolic Blood Pressure by Prevalent Angina Pectoris",
+       x = "Age",
+       y = "Systolic Blood Pressure",
+       color = "Prevalent Angina") +
+  stat_density2d(aes(x=AGE, y=SYSBP, fill = ANGINA), size=3,
+bins=10, data=as.data.frame(filtered_data), geom="polygon") +
+  facet_wrap(~ ANGINA)
+
+  theme_minimal()
 
 ```
 
