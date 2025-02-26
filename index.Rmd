@@ -47,8 +47,7 @@ Variables recorded in the Framingham Heart Study Data
 - Age
 - Systolic Blood Pressure
 - Diastolic Blood Pressure
-- Use of
-  Anti-Hypertensive Medication at time of examination
+- Use of Anti-Hypertensive Medication at time of examination
 - Currently Smoking 
 - Number of cigarettes per day
 - Attained Education Level 
@@ -69,10 +68,11 @@ Variables recorded in the Framingham Heart Study Data
 theme_set(theme_bw())
 g <- ggplot(frmgham_data, aes(x = BMI, y = AGE, col = ANGINA)) +
       geom_point(alpha = 0.2) +
+      facet_wrap(~ ANGINA) +
       transition_time(frmgham_data$PERIOD) +
       labs(title = "Time: {frame_time}")
-      facet_grid(rows = vars(ANGINA))
 
+      
 animation <- animate(g, nframes = 3, fps = 1, renderer = gifski_renderer())
 
 anim_save("animation.gif", animation)
