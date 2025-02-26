@@ -65,7 +65,7 @@ Variables recorded in the Framingham Heart Study Data
 
 
 ## Results {#results}
-``` {r, SYSBP-AGE-SEX_POINT, fig.cap = "A vi ", echo = TRUE}
+``` {r, SYSBP-AGE-SEX_POINT, fig.cap = "A vi ", results='hide', message=FALSE, warning=FALSE, echo = TRUE}
 theme_set(theme_bw())
 g <- ggplot(frmgham_data, aes(x = BMI, y = AGE, col = ANGINA)) +
       geom_point(alpha = 0.2) +

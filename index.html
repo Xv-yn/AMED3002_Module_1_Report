@@ -1562,33 +1562,11 @@ g &lt;- ggplot(frmgham_data, aes(x = BMI, y = AGE, col = ANGINA)) +
       geom_point(alpha = 0.2) +
       transition_time(frmgham_data$PERIOD) +
       labs(title = &quot;Time: {frame_time}&quot;)
-      facet_grid(rows = vars(ANGINA))</code></pre>
-<pre><code>## &lt;ggproto object: Class FacetGrid, Facet, gg&gt;
-##     compute_layout: function
-##     draw_back: function
-##     draw_front: function
-##     draw_labels: function
-##     draw_panels: function
-##     finish_data: function
-##     init_scales: function
-##     map_data: function
-##     params: list
-##     setup_data: function
-##     setup_params: function
-##     shrink: TRUE
-##     train_scales: function
-##     vars: function
-##     super:  &lt;ggproto object: Class FacetGrid, Facet, gg&gt;</code></pre>
-<pre class="r"><code>animation &lt;- animate(g, nframes = 3, fps = 1, renderer = gifski_renderer())</code></pre>
-<pre><code>## Warning: Removed 19 rows containing missing values or values outside the scale range
-## (`geom_point()`).
-## Removed 19 rows containing missing values or values outside the scale range
-## (`geom_point()`).</code></pre>
-<pre><code>## Warning: Removed 16 rows containing missing values or values outside the scale range
-## (`geom_point()`).</code></pre>
-<pre><code>## Warning: Removed 17 rows containing missing values or values outside the scale range
-## (`geom_point()`).</code></pre>
-<pre class="r"><code>anim_save(&quot;animation.gif&quot;, animation)
+      facet_grid(rows = vars(ANGINA))
+
+animation &lt;- animate(g, nframes = 3, fps = 1, renderer = gifski_renderer())
+
+anim_save(&quot;animation.gif&quot;, animation)
 
 # ggplot(filtered_data, aes(x = BMI, y = AGE, col = ANGINA)) +
 #   geom_point(alpha = 0.2) +
