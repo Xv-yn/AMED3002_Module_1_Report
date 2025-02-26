@@ -19,7 +19,7 @@ library(gifski)
 ```
 
 ## **Framingham Heart Study**
-![](~/Desktop/AMED3002_Module_1_Report/framingham_heart_banner.jpg)
+![](./framingham_heart_banner.jpg)
 
 ## Abstract {#abstract}
 A data analysis report was conducted and written based on a Framingham study, where data 
@@ -82,7 +82,7 @@ anim_save("animation.gif", animation)
 #   facet_grid(rows = vars(ANGINA))
 ```
 
-![](~/Desktop/AMED3002_Module_1_Report/animation.gif)
+![](./animation.gif)
 
 Figure \@ref{fig:SYSBP-AGE-SEX_POINT} shows a scatter plot between Systolic Blood 
 Pressure and Age faceted by Sex. In both sexes, systolic blood pressure increases with age
