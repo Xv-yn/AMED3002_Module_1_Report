@@ -1,22 +1,36 @@
 ---
-title: "Template_Report"
-author: "Author"
-date: "2025-02-14"
+title: "AMED3002 Lab 1 Report"
+author: "Elwood Fong"
+date: "2025-02-26"
 output: 
   rmdformats::downcute:
     number_sections: false
     toc_depth: 3
     use_bookdown: true
+    code_folding: hide
 ---
 
 ```{r setup, include=FALSE}
-knitr::opts_chunk$set(echo = TRUE)
-# setwd(file.path("C:", "Users", "elwoo", "Desktop", "University", "AMED3002"))
-setwd("~/Desktop/University/AMED3002/")
+library(knitr)
+knitr::opts_chunk$set(echo = TRUE, collapse = TRUE)
+
+setwd(file.path("C:", "Users", "elwoo", "Desktop", "University", "AMED3002"))
+# setwd("~/Desktop/University/AMED3002/")
+
 frmgham_data <- read.csv("frmgham.csv", header = TRUE)
-library(ggplot2)
-library(gganimate)
-library(gifski)
+
+frmgham_data$SEX <- sapply(frmgham_data$SEX, 
+                           function(x) switch(as.character(x),
+                                              "1" = "Male",
+                                              "2" = "Female"))
+frmgham_data$ANGINA <- sapply(frmgham_data$ANGINA, 
+                           function(x) switch(as.character(x),
+                                              "0" = "Free of Disease",
+                                              "1" = "Prevalent Disease"))
+frmgham_data$DEATH <- sapply(frmgham_data$DEATH, 
+                           function(x) switch(as.character(x),
+                                              "0" = "Alive",
+                                              "1" = "Dead"))
 ```
 
 ## **Framingham Heart Study**
@@ -27,22 +41,13 @@ library(gifski)
 
 
 ## Introduction {#introduction}
-```{r, echo = FALSE}
-frmgham_data$SEX <- sapply(frmgham_data$SEX, 
-                           function(x) switch(as.character(x),
-                                              "1" = "Male",
-                                              "2" = "Female"))
-#frmgham_data$ANGINA <- sapply(frmgham_data$ANGINA, 
-#                           function(x) switch(as.character(x),
-#                                              "0" = "Free of Disease",
-#                                              "1" = "Prevalent Disease"))
-frmgham_data$DEATH <- sapply(frmgham_data$DEATH, 
-                           function(x) switch(as.character(x),
-                                              "0" = "Alive",
-                                              "1" = "Dead"))
-```
 
-Variables recorded in the Framingham Heart Study Data
+This study begin in 1948 with 5,209 subjects (aged 30 to 62) initially enrolled from the town of Framingham in America. Participant data was collected over three periods, approximately 6 years apart. These participants were monitored via regular surveillance of area hospitals, participant contact, and death certificates, to identify potential characteristics of cardiovascular disease risk factors and the effects of lifestyle choices.
+The purpose of this report is to analyze the relationship between various factors and the presence of Angina Pectoris.
+
+### The Dataset {#dataset}
+
+These are the variables monitored in participants:
 
 - Sex
 - Period/Time
@@ -64,54 +69,106 @@ Variables recorded in the Framingham Heart Study Data
 - Prevalent Stroke
 - Prevalent Hypertensive
 
-
 ## Results {#results}
 
-```{r}
+To generate the following plots, the libraries:`ggplot2` and `dplyr`, were used for data visualization and manipulation.
+
+```{r libraries, results='hide', message=FALSE, warning=FALSE, echo = TRUE}
+# Libraries used
+library(ggplot2)
+library(dplyr)
+```
+
+### Age vs. Systolic Blood Pressure by Prevalent Angina Pectoris
+
+The raw data was filtered to include only living individuals, ensuring the analysis focused on the relationship between systolic blood pressure (`SYSBP`) and age. Additionally, rows with missing values in the `ANGINA` column were removed to ensure data integrity.
+
+The median age and systolic blood pressure was also calculated for each angina group.
+
+```{r pre-processing-1, fig.cap = "Pre-processing data", fig.label="fig:pre-processing-1", results='hide', message=FALSE, warning=FALSE, echo = TRUE}
 filtered_data <- frmgham_data[frmgham_data$DEATH == "Alive", ]
 
-ggplot(filtered_data, aes(x = AGE, y = SYSBP, color = factor(ANGINA))) +
-  # geom_point(alpha = 0.5)
-  #geom_point(data=as.data.frame(filtered_data), aes(x=AGE, y=SYSBP, fill=ANGINA), size=3, 
-# shape=21, alpha=0.6, position="jitter") + 
-  scale_fill_continuous(low="white", high="#FF0033")+
+filtered_data <- filtered_data[!is.na(filtered_data$ANGINA), ]
+
+centers <- filtered_data %>%
+  group_by(ANGINA) %>%
+  summarise(center_AGE = median(AGE, na.rm = TRUE), 
+            center_SYSBP = median(SYSBP, na.rm = TRUE))
+```
+
+Figure \@ref(fig:fig1) below illustrates the distribution of systolic blood pressure across different ages, separated by the prevalence of Angina Pectoris. The density heatmap highlights regions with a higher concentration of individuals, with warmer colors representing higher densities. Additionally, the median age and systolic blood pressure for each group are marked to provide a central tendency reference.
+
+```{r fig1, fig.cap = "A topographical plot displaying the ranges of systolic blood pressure against age separated by the prevalence of Angina Pectoris with points showing the median age and systolic blood pressure", fig.label="fig:topographical", results='hide', message=FALSE, warning=FALSE, echo = TRUE}
+ggplot(filtered_data, aes(x = AGE, y = SYSBP)) +
   labs(title = "Age vs. Systolic Blood Pressure by Prevalent Angina Pectoris",
-       x = "Age",
-       y = "Systolic Blood Pressure",
-       color = "Prevalent Angina") +
-  stat_density2d(aes(x=AGE, y=SYSBP, fill = ANGINA), size=3,
-bins=10, data=as.data.frame(filtered_data), geom="polygon") +
-  facet_wrap(~ ANGINA)
+       x = "Age (Years)",
+       y = "Systolic Blood Pressure (mmHg)",
+       color = "Prevalent Angina",
+       caption = "*Probability Density per Year per mmHg") +
+  stat_density2d(
+    aes(x=AGE, y=SYSBP, fill = ..level..), 
+    size=0, 
+    bins=9, 
+    data=as.data.frame(filtered_data), 
+    geom="polygon") +
+  facet_grid(col = vars(ANGINA)) +
+  scale_fill_gradient(low = "yellow", high = "red", name = "Density Level*",
+                      limits = c(0, 0.001)) + 
+  geom_point(data = centers, 
+             aes(x = center_AGE, 
+                 y = center_SYSBP, 
+                 color = ANGINA), 
+             size = 3, shape = 21, 
+             fill = "black") +
+  geom_text(data = centers, 
+            aes(x = center_AGE, 
+                y = center_SYSBP, 
+                label = paste0("(", center_AGE, ", ", center_SYSBP, ")")), 
+            vjust = -1) 
+  
+```
 
-  theme_minimal()
+From the Figure \@ref(fig:fig1), we observe that individuals free of disease tend to have lower systolic blood pressure on average compared to those with prevalent angina. Additionally, the distribution appears more concentrated at lower blood pressure values for the disease-free group, whereas it is more spread out for those with prevalent disease.
 
+
+### Percentage of Angina Cases Over Time
+
+The dataset was further processed to group and summarize angina cases by period, angina status, and sex. The number of angina cases in each category was counted, and the proportion of cases within each period was calculated as a percentage. To account for variability in the data, the standard error (SE) of the percentage was computed using the binomial proportion formula. Additionally, 95% confidence intervals (CI) were derived to provide statistical bounds for the angina prevalence estimates.
+
+```{r pre-processing-2, fig.cap = "A vi ", fig.label="fig:pre-processing-2", results='hide', message=FALSE, warning=FALSE, echo = TRUE}
+filtered_data <- filtered_data %>%
+  group_by(PERIOD, ANGINA, SEX) %>%
+  summarise(Angina_Cases = n(), .groups = 'drop') %>%
+  # Calculate the percentage within each PERIOD
+  group_by(PERIOD) %>%
+  mutate(Angina_Percentage = Angina_Cases / sum(Angina_Cases) * 100,
+         SE = sqrt((Angina_Percentage * (100 - Angina_Percentage)) / Angina_Cases)) %>%
+  ungroup()
+
+filtered_data <- filtered_data %>%
+  mutate(CI_Lower = Angina_Percentage - (1.96 * SE),
+         CI_Upper = Angina_Percentage + (1.96 * SE))
 ```
 
 
 
 
 
-
-
-
-
-
-``` {r fig1, fig.cap = "A vi ", fig.label="fig:example", results='hide', message=FALSE, warning=FALSE, echo = TRUE}
-theme_set(theme_bw())
-g <- ggplot(frmgham_data, aes(x = BMI, y = AGE, col = ANGINA)) +
-      geom_point(alpha = 0.2) +
-      facet_wrap(~ ANGINA) +
-      transition_time(frmgham_data$PERIOD) +
-      labs(title = "Time: {frame_time}")
-
-      
-animation <- animate(g, nframes = 3, fps = 1, renderer = gifski_renderer())
-
-anim_save("animation.gif", animation)
-
-# ggplot(filtered_data, aes(x = BMI, y = AGE, col = ANGINA)) +
-#   geom_point(alpha = 0.2) +
-#   facet_grid(rows = vars(ANGINA))
+``` {r fig2, fig.cap = "A bar plot showing percentage of angina cases in males and females over period", fig.label="fig:facet-bar-plot", results='hide', message=FALSE, warning=FALSE, echo = TRUE}
+ggplot(filtered_data, aes(x = ANGINA, y= Angina_Percentage, fill = as.factor(SEX))) +
+  geom_bar(stat = "identity", position = "dodge") +
+  geom_text(aes(label = paste0(round(Angina_Percentage, 1), "%")), 
+          position = position_dodge(width = 0.9), 
+          vjust = -1,
+          hjust = 0.25) +
+  geom_errorbar(aes(ymin = Angina_Percentage - SE, ymax = Angina_Percentage + SE), 
+              position = position_dodge(width = 0.9), width = 0.2) +
+  labs(title = "Percentage of Angina Cases Over Time",
+       y = "Percentage of Angina Cases (%)",
+       fill = "Gender") +
+  facet_grid(~ PERIOD) +
+  theme(axis.text.x = element_text(angle = 30, hjust = 1)) +
+  scale_y_continuous(limits = c(0, 60), expand = c(0, 0.05))
 ```
 
 ![](./animation.gif)
