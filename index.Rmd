@@ -131,7 +131,6 @@ ggplot(filtered_data, aes(x = AGE, y = SYSBP)) +
 
 From the Figure \@ref(fig:fig1), we observe that individuals free of disease tend to have lower systolic blood pressure on average compared to those with prevalent angina. Additionally, the distribution appears more concentrated at lower blood pressure values for the disease-free group, whereas it is more spread out for those with prevalent disease.
 
-
 ### Percentage of Angina Cases Over Time
 
 The dataset was further processed to group and summarize angina cases by period, angina status, and sex. The number of angina cases in each category was counted, and the proportion of cases within each period was calculated as a percentage. To account for variability in the data, the standard error (SE) of the percentage was computed using the binomial proportion formula. Additionally, 95% confidence intervals (CI) were derived to provide statistical bounds for the angina prevalence estimates.
