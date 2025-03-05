@@ -14,8 +14,8 @@ output:
 library(knitr)
 knitr::opts_chunk$set(echo = TRUE, collapse = TRUE)
 
-setwd(file.path("C:", "Users", "elwoo", "Desktop", "University", "AMED3002"))
-# setwd("~/Desktop/University/AMED3002/")
+# setwd(file.path("C:", "Users", "elwoo", "Desktop", "University", "AMED3002"))
+setwd("~/Desktop/University/AMED3002/")
 
 frmgham_data <- read.csv("frmgham.csv", header = TRUE)
 
@@ -31,6 +31,11 @@ frmgham_data$DEATH <- sapply(frmgham_data$DEATH,
                            function(x) switch(as.character(x),
                                               "0" = "Alive",
                                               "1" = "Dead"))
+frmgham_data$PERIOD <- sapply(frmgham_data$PERIOD, 
+                           function(x) switch(as.character(x),
+                                              "1" = "Period 1",
+                                              "2" = "Period 2",
+                                              "3" = "Period 3"))
 ```
 
 ## **Framingham Heart Study**
