@@ -1565,7 +1565,6 @@ margin-left: 0 !important;
             <li><a href="#age-vs.-systolic-blood-pressure-by-prevalent-angina-pectoris" id="toc-age-vs.-systolic-blood-pressure-by-prevalent-angina-pectoris">Age vs. Systolic Blood Pressure by Prevalent Angina Pectoris</a></li>
             <li><a href="#percentage-of-angina-cases-over-time" id="toc-percentage-of-angina-cases-over-time">Percentage of Angina Cases Over Time</a></li>
             </ul></li>
-            <li><a href="#discussion" id="toc-discussion">Discussion</a></li>
             <li><a href="#conclusion" id="toc-conclusion">Conclusion</a></li>
             </ul>
           </div>
@@ -1606,8 +1605,7 @@ margin-left: 0 !important;
 </div>
 <div id="introduction" class="section level2">
 <h2>Introduction</h2>
-<p>This study begin in 1948 with 5,209 subjects (aged 30 to 62) initially enrolled from the town of Framingham in America. Participant data was collected over three periods, approximately 6 years apart. These participants were monitored via regular surveillance of area hospitals, participant contact, and death certificates, to identify potential characteristics of cardiovascular disease risk factors and the effects of lifestyle choices.
-The purpose of this report is to analyze the relationship between various factors and the presence of Angina Pectoris.</p>
+<p>This study begin in 1948 with 5,209 subjects (aged 30 to 62) initially enrolled from the town of Framingham in America. Participant data was collected over three periods, approximately 6 years apart. These participants were monitored via regular surveillance of area hospitals, participant contact, and death certificates, to identify potential characteristics of cardiovascular disease risk factors and the effects of lifestyle choices. The purpose of this report is to analyze the relationship between various factors and the presence of Angina Pectoris.</p>
 <div id="dataset" class="section level3">
 <h3>The Dataset</h3>
 <p>These are the variables monitored in participants:</p>
@@ -1685,7 +1683,7 @@ centers &lt;- filtered_data %&gt;%
 Figure 1: A topographical plot displaying the ranges of systolic blood pressure against age separated by the prevalence of Angina Pectoris with points showing the median age and systolic blood pressure
 </p>
 </div>
-<p>From the Figure <a href="#fig:fig1">1</a>, we observe that individuals free of disease tend to have lower systolic blood pressure on average compared to those with prevalent angina. Additionally, the distribution appears more concentrated at lower blood pressure values for the disease-free group, whereas it is more spread out for those with prevalent disease.</p>
+<p>From the Figure <a href="#fig:fig1">1</a>, we observe that individuals without disease tend to have lower systolic blood pressure on average compared to those with prevalent angina. This suggests a potential association between higher blood pressure and the presence of angina. Furthermore, the disease-free group exhibits a more concentrated distribution at lower values, implying that their blood pressure levels are relatively stable and fall within a narrower range. In contrast, individuals with prevalent angina show a more dispersed distribution, suggesting greater variability in blood pressure, which may be influenced by other factors.</p>
 </div>
 <div id="percentage-of-angina-cases-over-time" class="section level3">
 <h3>Percentage of Angina Cases Over Time</h3>
@@ -1723,14 +1721,12 @@ filtered_data &lt;- filtered_data %&gt;%
 Figure 2: A bar plot showing percentage of angina cases in males and females over period
 </p>
 </div>
-<p>From Figure <a href="#fig:fig2">2</a>, we observe that the proportion of individuals free of disease is higher among females compared to males across all time periods. Additionally, a greater percentage of females have prevalent angina than males, though the overall prevalence remains low in both groups. The error bars indicate variability, showing that the estimates for angina prevalence are consistent across time periods with minimal fluctuations.</p>
+<p>From Figure <a href="#fig:fig2">2</a>, a consistent pattern is observed, where a higher proportion of females are free of disease compared to males. This could reflect known biological and behavioral differences, such as hormonal protection in premenopausal women or variations in lifestyle. Despite this, a greater percentage of females have prevalent angina compared to males. While the overall prevalence of angina remains low in both groups, this finding suggests that among those who develop the disease, females may be more susceptible to its occurrence or diagnosis. The error bars in the figure show minimal fluctuations across time periods, suggesting that the observed gender differences in disease prevalence are not due to random variations but represent consistent trends over time.</p>
+<blockquote>
+<p>⚠ Note</p>
+<p>The data is collected only from individuals in Framingham, America, which may limit the generalization of the findings to other populations. Further research could explore the underlying causes of these differences, including genetic, behavioral, and environmental factors, to refine prevention and treatment approaches.</p>
+</blockquote>
 </div>
-</div>
-<div id="discussion" class="section level2">
-<h2>Discussion</h2>
-<p>From Figure <a href="#fig:fig1">1</a>, it is evident that individuals without disease tend to have lower systolic blood pressure on average compared to those with prevalent angina. This suggests a potential association between higher blood pressure and the presence of angina, which aligns with existing literature indicating that hypertension is a significant risk factor for cardiovascular diseases. Furthermore, the disease-free group exhibits a more concentrated distribution at lower values, implying that their blood pressure levels are relatively stable and fall within a narrower range. In contrast, individuals with prevalent angina show a more dispersed distribution, suggesting greater variability in blood pressure, which may be influenced by other factors.</p>
-<p>Figure <a href="#fig:fig2">2</a> shows the differences in disease prevalence between males and females across multiple time periods. A consistent pattern is observed, indicating that a higher proportion of females are free of disease compared to males. This could reflect known biological and behavioral differences, such as hormonal protection in premenopausal women or variations in lifestyle. Despite this, a greater percentage of females have prevalent angina compared to males. While the overall prevalence of angina remains low in both groups, this finding suggests that among those who develop the disease, females may be more susceptible to its occurrence or diagnosis. The error bars in the figure show minimal fluctuations across time periods, suggesting that the observed gender differences in disease prevalence are not due to random variations but represent consistent trends over time.</p>
-<p>These findings highlight the importance of considering both blood pressure regulation and gender-specific disease risks. The association between systolic blood pressure and disease presence highlights the need for targeted interventions to manage hypertension, particularly in individuals at risk for angina. Similarly, understanding gender disparities in disease prevalence can inform tailored prevention strategies, ensuring that both men and women receive appropriate screening and management based on their specific risk profiles. Note that the data is collected only from individuals in Framingham, America, which may limit the generalizability of the findings to other populations. Further research could explore the underlying causes of these differences, including genetic, behavioral, and environmental factors, to refine prevention and treatment approaches.</p>
 </div>
 <div id="conclusion" class="section level2">
 <h2>Conclusion</h2>
