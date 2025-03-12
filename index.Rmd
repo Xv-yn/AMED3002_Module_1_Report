@@ -177,7 +177,7 @@ From Figure \@ref(fig:fig2), a consistent pattern is observed, where a higher pr
 
 > ⚠ Note
 > 
-> The data is collected only from individuals in Framingham, America, which may limit the generalization of the findings to other populations. Further research could explore the underlying causes of these differences, including genetic, behavioral, and environmental factors, to refine prevention and treatment approaches.
+> The data is collected only from individuals in Framingham, America, which may limit the generalization of the findings to other populations.
 
 ## Conclusion {#conclusion}
 
